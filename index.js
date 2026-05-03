@@ -9,10 +9,10 @@ import {
   DisconnectReason,
   fetchLatestBaileysVersion,
   makeCacheableSignalKeyStore,
-  makeInMemoryStore,
   proto,
   jidNormalizedUser,
 } from '@whiskeysockets/baileys';
+import { makeInMemoryStore } from '@whiskeysockets/baileys/lib/Store/index.js';
 
 import pino      from 'pino';
 import { Boom }  from '@hapi/boom';

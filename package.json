@@ -10,7 +10,7 @@
     "pair": "node pair-site/server.js"
   },
   "dependencies": {
-    "@whiskeysockets/baileys": "^6.7.9",
+    "@whiskeysockets/baileys": "6.7.21",
     "axios": "^1.7.2",
     "cheerio": "^1.0.0",
     "chalk": "^5.3.0",
