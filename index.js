@@ -274,21 +274,27 @@ async function startPairSite() {
   }
 }
 
-// ── Start ──────────────────────────────────────────────
-await connectToWhatsApp();
-await startPairSite();
-
-// ── Web panel server (auto-start) ─────────────────
-// Note: Heroku requires listening on process.env.PORT
-(async () => {
+// ── Start Web Server FIRST (for Heroku health checks) ──
+const startWebServer = async () => {
   try {
     const { createWebServer } = await import('./web/server.js');
     // Heroku uses process.env.PORT, default to 4000 for local dev
     const port = parseInt(process.env.PORT) || parseInt(process.env.WEB_PORT) || 4000;
-    await createWebServer(port);
+    createWebServer(port);
     log.success(`Web panel listening on port ${port}`);
   } catch (e) {
-    // Web server error doesn't kill the bot
     log.error(`Web server error: ${e.message}`);
+    // Still continue to start bot even if web server fails
   }
-})();
+};
+
+await startWebServer();
+
+// ── Start WhatsApp Bot ──────────────────────────────────
+try {
+  await connectToWhatsApp();
+  await startPairSite();
+} catch (e) {
+  log.error(`Bot startup error: ${e.message}`);
+  // Bot can run without pair site
+}
