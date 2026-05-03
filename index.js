@@ -46,11 +46,14 @@ setInterval(() => store?.writeToFile('./database/store.json'), 15_000);
 const msgRetryCache = new NodeCache();
 
 // ── Init ───────────────────────────────────────────────
+console.log('🚀 SASA MD Initializing...');
 banner();
+console.log('📦 Loading database...');
 await initDB();
 log.success('Database initialized');
-
+console.log('📂 Loading commands...');
 const { commands } = await loadCommands();
+console.log(`✅ Loaded ${commands.size} commands`);
 
 // ══════════════════════════════════════════════════════
 //  MAIN CONNECTION FUNCTION
@@ -277,12 +280,15 @@ async function startPairSite() {
 // ── Start Web Server FIRST (for Heroku health checks) ──
 const startWebServer = async () => {
   try {
+    console.log('🌐 Starting web server...');
     const { createWebServer } = await import('./web/server.js');
     // Heroku uses process.env.PORT, default to 4000 for local dev
     const port = parseInt(process.env.PORT) || parseInt(process.env.WEB_PORT) || 4000;
+    console.log(`📡 Web server port: ${port}`);
     createWebServer(port);
     log.success(`Web panel listening on port ${port}`);
   } catch (e) {
+    console.error('❌ Web server error:', e.message);
     log.error(`Web server error: ${e.message}`);
     // Still continue to start bot even if web server fails
   }
@@ -292,9 +298,13 @@ await startWebServer();
 
 // ── Start WhatsApp Bot ──────────────────────────────────
 try {
+  console.log('🤖 Connecting to WhatsApp...');
   await connectToWhatsApp();
+  console.log('💬 Starting pair site...');
   await startPairSite();
+  console.log('✅ Bot fully initialized');
 } catch (e) {
+  console.error('❌ Bot startup error:', e.message);
   log.error(`Bot startup error: ${e.message}`);
   // Bot can run without pair site
 }
