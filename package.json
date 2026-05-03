@@ -20,7 +20,7 @@
     "node-fetch": "^3.3.2",
     "qrcode": "^1.5.4",
     "express": "^4.19.2",
-    "jimp": "^0.22.12",
+    "jimp": "^1.6.0",
     "fluent-ffmpeg": "^2.1.2",
     "ytdl-core": "^4.11.5",
     "yt-search": "^2.12.0",
