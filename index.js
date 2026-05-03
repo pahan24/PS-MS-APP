@@ -279,14 +279,16 @@ await connectToWhatsApp();
 await startPairSite();
 
 // ── Web panel server (auto-start) ─────────────────
-// Note: web server starts automatically with the bot
+// Note: Heroku requires listening on process.env.PORT
 (async () => {
   try {
     const { createWebServer } = await import('./web/server.js');
-    const webPort = parseInt(process.env.WEB_PORT) || 4000;
-    createWebServer(webPort);
+    // Heroku uses process.env.PORT, default to 4000 for local dev
+    const port = parseInt(process.env.PORT) || parseInt(process.env.WEB_PORT) || 4000;
+    await createWebServer(port);
+    log.success(`Web panel listening on port ${port}`);
   } catch (e) {
     // Web server error doesn't kill the bot
-    log.warn(`Web server error: ${e.message}`);
+    log.error(`Web server error: ${e.message}`);
   }
 })();
