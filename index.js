@@ -9,7 +9,6 @@ import {
   DisconnectReason,
   fetchLatestBaileysVersion,
   makeCacheableSignalKeyStore,
-  makeInMemoryStore,
   proto,
   jidNormalizedUser,
 } from '@whiskeysockets/baileys';
