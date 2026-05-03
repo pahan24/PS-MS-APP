@@ -9,10 +9,10 @@ import {
   DisconnectReason,
   fetchLatestBaileysVersion,
   makeCacheableSignalKeyStore,
+  makeInMemoryStore,
   proto,
   jidNormalizedUser,
 } from '@whiskeysockets/baileys';
-import { makeInMemoryStore } from '@whiskeysockets/baileys/lib/Store/index.js';
 
 import pino      from 'pino';
 import { Boom }  from '@hapi/boom';
@@ -37,11 +37,11 @@ process.on('uncaughtException',  e => log.error(`Uncaught Exception: ${e.message
 process.on('unhandledRejection', e => log.error(`Unhandled Rejection: ${e?.message || e}`));
 
 // ── In-memory store ────────────────────────────────────
+// Note: Baileys 6.7.21 removed makeInMemoryStore, using null for now
 const logger = pino({ level: 'silent' });
-const store  = makeInMemoryStore({ logger });
-await fs.ensureDir('./database');
-store?.readFromFile('./database/store.json');
-setInterval(() => store?.writeToFile('./database/store.json'), 15_000);
+const store  = null; // makeInMemoryStore({ logger }); - removed in 6.7.21
+// store?.readFromFile('./database/store.json'); - disabled
+// setInterval(() => store?.writeToFile('./database/store.json'), 15_000); - disabled
 
 const msgRetryCache = new NodeCache();
 
@@ -79,11 +79,11 @@ async function connectToWhatsApp() {
         const m = await store.loadMessage(key.remoteJid, key.id);
         return m?.message || undefined;
       }
-      return proto.Message.fromObject({});
+      return undefined; // Store not available in Baileys 6.7.21
     },
   });
 
-  store?.bind(sock.ev);
+  store?.bind(sock.ev); // Disabled - store is null in 6.7.21
 
   // ── Connection update ──────────────────────────────
   sock.ev.on('connection.update', async (update) => {
