@@ -1,7 +1,7 @@
 // ╔══════════════════════════════════════════════════╗
 // ║         SASA MD - Owner Commands                 ║
 // ╚══════════════════════════════════════════════════╝
-import { setSetting, getSettings, banUser, unbanUser, getAllUsers } from '../../lib/database.js';
+import { updateSetting, getSettings, blockUser, unblockUser, getAllUsers } from '../../lib/database.js';
 import config from '../../config.js';
 
 export const setprefix = {
@@ -11,7 +11,7 @@ export const setprefix = {
     if (!isOwner) return;
     const newPrefix = args[0];
     if (!newPrefix) return sock.sendMessage(jid, { text: '❌ Provide a prefix character.', quoted: msg });
-    await setSetting('prefix', newPrefix);
+    await updateSetting('prefix', newPrefix);
     config.prefix = newPrefix;
     await sock.sendMessage(jid, { text: `✅ Prefix changed to: *${newPrefix}*`, quoted: msg });
   },
@@ -26,7 +26,7 @@ export const setmode = {
     if (!['public', 'private', 'group'].includes(mode)) {
       return sock.sendMessage(jid, { text: '❌ Usage: .setmode public|private|group', quoted: msg });
     }
-    await setSetting('mode', mode);
+    await updateSetting('mode', mode);
     config.mode = mode;
     await sock.sendMessage(jid, { text: `✅ Mode set to: *${mode.toUpperCase()}*`, quoted: msg });
   },
@@ -51,7 +51,7 @@ export const setcooldown = {
     if (!isOwner) return;
     const secs = parseInt(args[0]);
     if (isNaN(secs) || secs < 0) return sock.sendMessage(jid, { text: '❌ Provide valid seconds.', quoted: msg });
-    await setSetting('cooldownSecs', secs);
+    await updateSetting('cooldownSecs', secs);
     config.cooldownSecs = secs;
     await sock.sendMessage(jid, { text: `✅ Cooldown set to *${secs}* seconds.`, quoted: msg });
   },
@@ -85,7 +85,7 @@ export const block = {
     const mentioned = msg.message?.extendedTextMessage?.contextInfo?.mentionedJid?.[0];
     const num = (mentioned || args[0])?.replace(/[^0-9]/g, '');
     if (!num) return sock.sendMessage(jid, { text: '❌ Provide a number.', quoted: msg });
-    await banUser(num);
+    await blockUser(num);
     await sock.sendMessage(jid, { text: `✅ Banned ${num} from bot.`, quoted: msg });
   },
 };
@@ -97,7 +97,7 @@ export const unblock = {
     if (!isOwner) return;
     const num = args[0]?.replace(/[^0-9]/g, '');
     if (!num) return sock.sendMessage(jid, { text: '❌ Provide a number.', quoted: msg });
-    await unbanUser(num);
+    await unblockUser(num);
     await sock.sendMessage(jid, { text: `✅ Unbanned ${num}.`, quoted: msg });
   },
 };
@@ -125,8 +125,3 @@ export const broadcast = {
   },
 };
 
-// getAllUsers helper needed by broadcast
-async function getAllUsers() {
-  const { read } = await import('../../lib/database.js');
-  return {};
-}

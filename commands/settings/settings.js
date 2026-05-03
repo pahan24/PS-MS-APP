@@ -1,7 +1,7 @@
 // ╔══════════════════════════════════════════════════╗
 // ║        SASA MD - Settings Commands               ║
 // ╚══════════════════════════════════════════════════╝
-import { setSetting, getSettings } from '../../lib/database.js';
+import { updateSetting, getSettings } from '../../lib/database.js';
 import config from '../../config.js';
 
 function makeToggle(name, desc, configKey) {
@@ -12,7 +12,7 @@ function makeToggle(name, desc, configKey) {
     async execute({ sock, msg, jid, args, isOwner }) {
       if (!isOwner) return sock.sendMessage(jid, { text: '🚫 Owner only.', quoted: msg });
       const state = args[0]?.toLowerCase() === 'on';
-      await setSetting(configKey, state);
+      await updateSetting(configKey, state);
       config[configKey] = state;
       await sock.sendMessage(jid, { text: `⚙️ *${name}:* ${state ? '✅ ON' : '❌ OFF'}`, quoted: msg });
     },
@@ -34,7 +34,7 @@ export const cooldown = {
     if (!isOwner) return sock.sendMessage(jid, { text: '🚫 Owner only.', quoted: msg });
     const secs = parseInt(args[0]);
     if (isNaN(secs)) return sock.sendMessage(jid, { text: '❌ Provide valid seconds.', quoted: msg });
-    await setSetting('cooldownSecs', secs);
+    await updateSetting('cooldownSecs', secs);
     config.cooldownSecs = secs;
     await sock.sendMessage(jid, { text: `⏱️ Cooldown set to *${secs}s*`, quoted: msg });
   },
@@ -47,7 +47,7 @@ export const prefix = {
     if (!isOwner) return sock.sendMessage(jid, { text: '🚫 Owner only.', quoted: msg });
     const p = args[0];
     if (!p) return sock.sendMessage(jid, { text: '❌ Provide a prefix.', quoted: msg });
-    await setSetting('prefix', p);
+    await updateSetting('prefix', p);
     config.prefix = p;
     await sock.sendMessage(jid, { text: `⌨️ Prefix changed to: *${p}*`, quoted: msg });
   },
