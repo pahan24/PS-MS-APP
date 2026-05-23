@@ -14,6 +14,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
+<<<<<<< HEAD
   --c1: #00f0ff;
   --c2: #7b2fff;
   --c3: #ff2d78;
@@ -28,6 +29,20 @@
   --muted: rgba(200,210,255,0.45);
   --font-display: 'Oxanium', monospace;
   --font-body: 'Inter', sans-serif;
+=======
+  --neon-green: #ff3b3b;
+  --neon-blue:  #ffffff;
+  --neon-purple:#000000;
+  --neon-pink:  #ff9a9a;
+  --dark-bg:    #080707;
+  --glass-bg:   rgba(255,255,255,0.06);
+  --glass-border: rgba(255,255,255,0.15);
+  --text:       #f8f3f1;
+  --text-dim:   #c8c0b9;
+  --card-bg:    rgba(20,12,12,0.88);
+  --danger:     #ff3b3b;
+  --success:    #ffffff;
+>>>>>>> 270bcec (update files)
 }
 
 body {
@@ -49,6 +64,7 @@ body {
   pointer-events: none;
 }
 
+<<<<<<< HEAD
 .bg-orb {
   position: absolute;
   border-radius: 50%;
@@ -98,6 +114,15 @@ body {
     linear-gradient(rgba(0,240,255,0.025) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0,240,255,0.025) 1px, transparent 1px);
   background-size: 50px 50px;
+=======
+/* ── Background grid ── */
+body::before {
+  content:''; position:fixed; inset:0; z-index:0;
+  background: radial-gradient(ellipse at 20% 20%, rgba(0,255,153,0.06) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 80%, rgba(0,212,255,0.04) 0%, transparent 60%),
+              repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(255,255,255,0.03) 40px, rgba(255,255,255,0.03) 41px),
+              repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,0.03) 40px, rgba(255,255,255,0.03) 41px);
+>>>>>>> 270bcec (update files)
 }
 
 /* ── Layout ── */
@@ -260,6 +285,7 @@ header {
   line-height: 1.5;
 }
 
+<<<<<<< HEAD
 /* ── Tabs ── */
 .tabs {
   display: flex;
@@ -268,6 +294,18 @@ header {
   padding: 4px;
   margin-bottom: 28px;
   border: 1px solid rgba(255,255,255,0.06);
+=======
+/* ── Forms ── */
+.form-group { margin-bottom:16px; }
+label { display:block; margin-bottom:6px; color:var(--text-dim); font-size:0.85rem; letter-spacing:1px; }
+input, select, textarea {
+  width:100%; padding:12px 16px; border-radius:10px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid var(--glass-border);
+  color:var(--text); font-size:0.95rem;
+  transition:border-color 0.2s;
+  outline:none;
+>>>>>>> 270bcec (update files)
 }
 
 .tab {
@@ -366,9 +404,14 @@ input::placeholder { color: rgba(200,210,255,0.25); }
 }
 
 .btn-primary {
+<<<<<<< HEAD
   background: linear-gradient(135deg, var(--c1) 0%, var(--c2) 100%);
   color: #000;
   box-shadow: 0 4px 20px rgba(0,240,255,0.25), 0 0 40px rgba(0,240,255,0.1);
+=======
+  background:linear-gradient(135deg, var(--neon-green), #b81b1b);
+  color:#000;
+>>>>>>> 270bcec (update files)
 }
 
 .btn-primary:hover:not(:disabled) {
@@ -436,9 +479,20 @@ input::placeholder { color: rgba(200,210,255,0.25); }
   animation: shimmer 2s infinite;
 }
 
+<<<<<<< HEAD
 @keyframes shimmer {
   from { transform: translateX(-100%); }
   to   { transform: translateX(100%); }
+=======
+/* ── Toast ── */
+.toast {
+  position:fixed; bottom:24px; right:24px; z-index:9999;
+  padding:14px 24px; border-radius:10px;
+  background:rgba(255,255,255,0.15); border:1px solid var(--neon-green);
+  color:var(--text); font-size:0.9rem;
+  transform:translateY(100px); opacity:0;
+  transition:all 0.3s;
+>>>>>>> 270bcec (update files)
 }
 
 .pair-hint {

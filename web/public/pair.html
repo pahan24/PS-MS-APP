@@ -8,10 +8,15 @@
 <body>
 <nav>
   <span class="nav-brand">⚡ SASA MD</span>
+  <button class="nav-toggle" onclick="toggleMenu()">☰</button>
   <div class="nav-links">
     <a href="/pair" class="active">Pair</a>
     <a href="/login">Dashboard</a>
   </div>
+</nav>
+<nav class="nav-menu" id="navMenu">
+  <a href="/pair" class="active">📱 Pair Device</a>
+  <a href="/login">📊 Dashboard</a>
 </nav>
 <div class="container">
   <div class="page-header">
@@ -59,6 +64,13 @@
 <div id="toast-container"></div>
 <script src="/js/common.js"></script>
 <script>
+function toggleMenu() {
+  const menu = document.getElementById('navMenu');
+  const toggle = document.querySelector('.nav-toggle');
+  menu.classList.toggle('active');
+  toggle.classList.toggle('active');
+}
+
 async function loadStatus() {
   try {
     const res = await fetch('/api/status', { headers: { Authorization: 'Bearer ' + (localStorage.getItem('sasa_token') || '') } });
