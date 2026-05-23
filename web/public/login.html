@@ -13,6 +13,23 @@
   </style>
 </head>
 <body>
+<nav>
+  <span class="nav-brand">⚡ SASA MD</span>
+  <button class="nav-toggle" onclick="toggleMenu()">☰</button>
+  <div class="nav-links">
+    <a href="/">Pair</a>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/coins">Economy</a>
+    <a href="/login" class="active">Login</a>
+  </div>
+</nav>
+<nav class="nav-menu" id="navMenu">
+  <a href="/">🔗 Pair</a>
+  <a href="/dashboard">📊 Dashboard</a>
+  <a href="/coins">💰 Economy</a>
+  <a href="/login" class="active">🔐 Login</a>
+</nav>
+
 <div class="login-wrap">
   <div class="login-box">
     <div class="login-logo">
@@ -41,6 +58,13 @@
 <div id="toast-container"></div>
 <script src="/js/common.js"></script>
 <script>
+function toggleMenu() {
+  const menu = document.getElementById('navMenu');
+  const toggle = document.querySelector('.nav-toggle');
+  menu.classList.toggle('active');
+  toggle.classList.toggle('active');
+}
+
 if (localStorage.getItem('sasa_token')) window.location.href = '/dashboard';
 async function login() {
   const botNumber = document.getElementById('bot-number').value.trim();
